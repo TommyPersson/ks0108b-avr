@@ -1,4 +1,4 @@
-#include "ptlcd.h"
+#include "ks0108b.h"
 
 #include <util/delay.h>
 
@@ -173,21 +173,13 @@ void ks0108b_set_y_address(uint8_t yaddr, uint8_t display)
 
 void ks0108b_status_read(uint8_t *busy, uint8_t *on, uint8_t *reset, uint8_t display)
 {
-  // FIXME: look into this later
   uint8_t data;
-/* ks0108b.c:108: warning: right shift count >= width of type */
-/* ks0108b.c:110: warning: right shift count >= width of type */
-/* ks0108b.c:112: warning: right shift count >= width of type */
 
   ks0108b_recv_data(&data, 0, display);
 
-/*   *busy = (data & _BV(LCD_DB7)) >> _BV(LCD_DB7); */
-
-/*   *on = (data & _BV(LCD_DB5)) >> _BV(LCD_DB5); */
-
-/*   *reset = (data & _BV(LCD_DB4)) >> _BV(LCD_DB4); */
-
-
+  *busy = (data & _BV(LCD_DB7)) >> 7;
+  *on = (data & _BV(LCD_DB5)) >> 5;
+  *reset = (data & _BV(LCD_DB4)) >> 4;
 }
 
 void ks0108b_write_display_data(uint8_t data, uint8_t display)
